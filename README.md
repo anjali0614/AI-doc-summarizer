@@ -1,0 +1,1 @@
+“The goal is to automatically summarize long-form documents (reports, articles, internal docs) into concise, structured insights using LLMs, overcoming context-length limitations through chunking and synthesis.”
