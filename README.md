@@ -1,66 +1,62 @@
 # AI Document Summarization Tool
 
-An end-to-end AI-style document summarization system built using Python.  
-This project demonstrates how large documents can be processed, chunked, summarized, and evaluated using a clean, modular pipeline similar to real-world LLM applications.
+Overview
 
----
+AI Document Summarizer is an analyst-focused, domain-agnostic document intelligence system that converts long, unstructured documents into structured, decision-ready summaries.
 
-## Project Overview
+The system is designed to simulate LLM-style summarization workflows using explainable, heuristic-based NLP techniques, while maintaining a modular architecture that can be extended to Large Language Models (LLMs) in the future.
 
-The goal of this project is to design a scalable and maintainable document summarization pipeline.  
-It processes long PDF or text documents and generates structured summaries while handling token limits through intelligent chunking.
+Rather than producing generic summaries, the tool structures output the way analysts consume information:
 
-The architecture is intentionally designed to resemble production-grade AI pipelines rather than a single-script solution.
-The architecture mirrors real-world AI pipelines but uses rule-based and mock logic instead of live AI models.
+## Key Insights
+- Metrics & Signals
+- Risks / Concerns
+- Recommended Actions
 
----
+ 
+## Problem Statement
+Analysts, consultants, and decision-makers frequently work with:
+- economic outlook reports
+- industry and market analysis
+- policy and strategy documents
+- resumes and screening documents
+
+Manually extracting actionable information from such documents is time-consuming and inconsistent.
+
+This project addresses that challenge by building a document intelligence pipeline that:
+- preprocesses noisy real-world text
+- filters irrelevant or boilerplate content
+- surfaces analyst-relevant signals
+- avoids hallucinating information not present in the source
 
 ## Key Features
 
-- Document ingestion (PDF / text)
-- Text cleaning and preprocessing
-- Token-aware chunking for large documents
-- Independent summarization of chunks
-- Final structured summary generation
-- Lightweight evaluation of summary quality
-- Modular, extensible codebase
-- Mock LLM-based summarization for cost-free experimentation  
+* 📑 Multi-format document ingestion (PDF, TXT)
+* 🧹 Content-aware preprocessing to clean noisy extracted text
+* 🧩 Chunking strategy for large documents
+* 🧠 Sentence-level classification into:
+   - Insights
+   - Metrics & Signals
+   - Risks / Concerns
+   - Recommended Actions
+* 🧪 Heuristic filtering to remove:
+   - citations
+   - references
+   - instructional or boilerplate text
+* 📊 Analyst-style structured summaries
+* 🔌 LLM-ready modular architecture
 
 ---
 
-## Architecture Overview
+## Supported Document Types
+The system is domain-agnostic, meaning it can process different document types, while keeping the output persona consistent (analyst / decision-maker).
 
-The pipeline follows a clear execution flow:
-
-1. **Document Loader** (loader.py)
-   Reads and extracts text from input files.
-
-2. **Preprocessor** (preprocess.py)
-   Cleans raw text by removing noise and normalizing content.
-
-3. **Chunker** (chunker.py)
-   Splits long documents into manageable, token-safe chunks.
-
-4. **Summarization Layer**  (summarizer.py) 
-   Each chunk is summarized independently using a mock LLM-style function.
-
-5. **Summary Combiner**  (main.py)
-   Individual summaries are merged into a final structured output.
-
-6. **Evaluation Module** (evaluator.py) 
-   Verifies completeness, structure, and basic quality metrics.
-
-   Each component is independently testable and extendable.
-
----
-
-## Tech Stack
-
-- Python
-- Virtual Environment (venv)
-- Modular pipeline-based design
-- Environment variable support
-- Git & GitHub for version control
+Best suited for:
+- Economic outlook reports (OECD, World Bank)
+- Industry and market research reports
+- Policy and strategy documents
+- Consulting-style analytical reports
+- Resumes (for analytical screening, not creative rewriting)
 
 ---
 
@@ -68,59 +64,124 @@ The pipeline follows a clear execution flow:
 
 AI-doc-summarizer/
 │
+├── data/
+│   └── sample_docs/        # Sample documents (ignored in Git)
+│
 ├── src/
-│ ├── loader/
-│ ├── preprocessing/
-│ ├── chunking/
-│ ├── summarization/
-│ ├── evaluation/
-│ └── main.py
+│   ├── loader.py           # Document loading & preprocessing
+│   ├── preprocess.py       # Text cleaning utilities
+│   ├── chunker.py          # Chunking logic
+│   ├── summarizer.py       # Insight extraction & classification
+│   ├── evaluator.py        # Output validation
+│   ├── doc_classifier.py   # Document type detection
+│   ├── main.py             # Pipeline orchestration
+│   └── __init__.py
 │
 ├── requirements.txt
 ├── .gitignore
 └── README.md
 
 
+---
+
+## Pipeline Overview
+
+1. Document Loading
+- Loads PDF or TXT files
+- Applies basic content-aware skipping where possible
+
+2.Preprocessing
+- Cleans extracted text
+- Removes excessive noise and formatting artifacts
+
+3.Chunking
+- Splits long documents into manageable chunks
+- Enables scalable processing
+
+4.Summarization & Classification
+- Uses heuristic NLP rules to classify sentences into analyst-relevant  categories
+
+5.Final Briefing Generation
+- Aggregates chunk-level outputs
+- Produces a structured executive briefing
 
 ---
 
-## How to Run Locally
+## Example Output
+
+DOCUMENT TYPE DETECTED: BUSINESS_REPORT
+
+EXECUTIVE BRIEFING
+
+KEY INSIGHTS:
+- Productivity improvements could benefit downstream manufacturing sectors
+- Structural reforms may improve capital and labor allocation
+- The global economy remains resilient but faces underlying fragilities
+
+METRICS & SIGNALS:
+- Global GDP growth is projected to slow in the coming years
+- Trade barriers and inflation pose downside risks
+
+RISKS / CONCERNS:
+- Rising macroeconomic uncertainty
+- Exposure to policy and trade disruptions
+
+RECOMMENDED ACTIONS:
+- Strengthen productivity-enhancing reforms
+- Support investment in high-impact sectors
+
+---
+
+## Installation & Usage
 
 1. Clone the repository  
 git clone https://github.com/anjali0614/AI-doc-summarizer.git
+cd AI-doc-summarizer
 
 
-2. Create and activate virtual environment
-python -m venv venv
-venv\Scripts\activate
-
-
-3. Install dependencies  
+2. Install dependencies  
 pip install -r requirements.txt
 
 
-4. Run the pipeline  
-python -m src.main
+3. Run the pipeline  
+cd src
+python main.py --file ../data/sample_docs/your_report.pdf
 
 
 
 ---
 
-## Output
+## Design Philosophy
 
-- Structured document summary
-- Key takeaways
-- Summary length metrics
-- Section presence validation
+✅ Analyst-first output, not generic summaries
+✅ Explainable heuristics over black-box automation
+✅ No hallucination of missing metrics or risks
+✅ Clean version control (no raw data or generated files tracked)
 
 ---
 
-## Future Improvements
+## Limitations
+Relies on PDF text extraction quality
+Does not parse tables, charts, or scanned images
+Heuristic rules may miss implicit or deeply contextual signals
 
-- Integration with real LLM APIs (OpenAI / Hugging Face)
-- Improved evaluation metrics (ROUGE, semantic similarity)
-- Web or API interface
-- Support for more document formats
+These limitations are explicitly acknowledged and reflect real-world document intelligence trade-offs.
+
+
+## Future Enhancements
+- Integration with Large Language Models (LLMs) for abstractive      summarization
+- Semantic classification using transformer-based models
+- OCR support for scanned PDFs
+- Layout-aware parsing for complex corporate filings
+- API or web interface for interactive usage
+
+---
+
+## Tech Stack
+- Python
+- PyPDF2
+- Heuristic NLP & rule-based text analysis
+- Modular pipeline architecture
 
 ---
 
@@ -128,3 +189,13 @@ python -m src.main
 
 **Anjali Mina**  
 GitHub: https://github.com/anjali0614  
+
+---
+
+## Final Note
+This project focuses on realistic analyst workflows, prioritizing:
+- clarity over hype
+- correctness over hallucination
+- explainability over black-box outputs
+
+It is designed to demonstrate system thinking, data awareness, and decision-intelligence principles, rather than a single-model demo.
