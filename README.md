@@ -62,6 +62,7 @@ Best suited for:
 
 ## Project Structure
 
+```text
 AI-doc-summarizer/
 │
 ├── data/
