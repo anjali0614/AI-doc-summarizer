@@ -82,7 +82,7 @@ AI-doc-summarizer/
 ├── .gitignore
 └── README.md
 
-
+```
 ---
 
 ## Pipeline Overview
